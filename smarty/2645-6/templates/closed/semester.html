@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>2645-6</title>
+	<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon"/>
+	<link rel="stylesheet" type="text/css" href="../jeasyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../jeasyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="../jeasyui/demo/demo.css">
+	<script type="text/javascript" src="../jeasyui/jquery.min.js"></script>
+	<script type="text/javascript" src="../jeasyui/jquery.easyui.min.js"></script>
+</head>
+<body class="easyui-layout">
+	<div data-options="region:'west',split:true,title:'学期管理菜单'" style="width:240px;padding:0px;">
+             <ul class="easyui-datalist" lines="true" style="width:100%;height:100%" fit="true">
+                <li value="semmanagesubject"><div onclick="addPanel('专业培养计划','semmanagesubject.php?term={#$term#}')">专业培养计划</div></li>
+                <li value="semchooselesson"><div onclick="addPanel('学生选课','semchooseclass.php?term={#$term#}')">学生选课</div></li>
+                <li value="semmanageexam"><div onclick="addPanel('考试管理','semmanageexam.php?term={#$term#}')">考试管理</div></li>
+                <li value="semimportgrade"><div onclick="addPanel('成绩录入','semimportgrade.php?term={#$term#}')">成绩录入</div></li>
+                <li value="semquerybysj"><div onclick="addPanel('成绩查询（按学科）','semquerybysj.php?term={#$term#}')">成绩查询（按学科）</div></li>
+                <li value="semquerybyex"><div onclick="addPanel('成绩查询（按考试）','semquerybyex.php?term={#$term#}')">成绩查询（按考试）</div></li>
+                <li value="semanalysis"><div onclick="addPanel('成绩分析','semanalysis.php?term={#$term#}')">成绩分析</div></li>
+            </ul>
+    </div>
+	<div data-options="region:'center'">
+	<iframe src="semwelcome.php" id="ifr" frameborder="0" width="100%" height="100%"></iframe>
+    </div>
+
+    <script type="text/javascript">
+		function addPanel(title,url){
+			document.getElementById('ifr').src=url;
+		}
+		
+	</script>
+</body>
+</html>

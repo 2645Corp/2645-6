@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>找回密码</title>
+<link rel="stylesheet" href="./css/bootstrap.css"/>
+<link href="./css/bootstrap.min.css" rel="stylesheet">
+<script type="text/javascript" src="./js/jquery.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="./js/bootstrap.min.js"></script>
+</head>
+
+<body style="background-color:#EFEFEF">
+<div class="container">
+  <div style="background-color:#FFFFFF; margin-top:100px; margin-bottom:200px; padding-top:100px; padding-bottom:150px;">
+    <div class="page-header col-xs-8 col-xs-offset-2">
+      <h1>找回密码</h1>
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    <form id="defaultForm" action="resetpass.php" method="post" enctype="multipart/form-data" class="form-horizontal">
+      <div class="form-group">
+        <label for="username" class="col-xs-1 col-xs-offset-2 control-label">用户名</label>
+        <div class="col-xs-7" style="margin-top:5px">
+          <input type="text" class="form-control" name="username" id="username" placeholder="User Name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="Email" class="col-xs-1 col-xs-offset-2 control-label">电子邮箱</label>
+        <div class="col-xs-7" style="margin-top:5px">
+          <input type="email" class="form-control" name="Email" id="Email" placeholder="Email">
+        </div>
+      </div>
+      <br/>
+      <br/>
+      <center>
+        <div id="captcha"></div>
+        <br/>
+        <br/>
+        <button id="mysubmit" class="btn btn-default" onClick="myvalidate()" disabled>提交</button>
+      </center>
+	<input type="hidden" name="action" value="send" />
+    </form>
+  </div>
+</div>
+<script src="http://static.geetest.com/static/tools/gt.js"></script> 
+<script>
+function myvalidate()
+{
+	alert("请拖动滑块完成验证~");
+	//$('#defaultForm').bootstrapValidator(options).bootstrapValidator('validate');
+//	var isvalid =$('#defaultForm').bootstrapValidator(options).bootstrapValidator('isvalid');
+//	//alert(isvalid);
+//	if(isvalid)
+//	{
+//		document.getElementById('defaultForm').submit();
+//	}
+//	else
+//		$('#defaultForm').bootstrapValidator(options).bootstrapValidator('validate');
+}
+				    var handler = function (captchaObj) {
+				         // 将验证码加到id为captcha的元素里
+				         captchaObj.appendTo("#captcha");
+						 captchaObj.onSuccess(function(){$("#mysubmit").removeAttr("disabled");$("#mysubmit").attr("class","btn btn-primary");$("#mysubmit").attr("type","submit");$("#mysubmit").removeAttr("onclick");});
+						 captchaObj.onFail(function(){$("#mysubmit").attr("disabled","true");$("#mysubmit").attr("class","btn btn-default");$("#mysubmit").attr("type","button");$("#mysubmit").attr("onclick","myvalidate()");});
+						 captchaObj.onRefresh(function(){$("#mysubmit").attr("disabled","true");$("#mysubmit").attr("class","btn btn-default");$("#mysubmit").attr("type","button");$("#mysubmit").attr("onclick","myvalidate()");});
+				     	 captchaObj.onReady(function(){$("#captcha").find().removeAttr("style");});
+					 };
+				    $.ajax({
+				        // 获取id，challenge，success（是否启用failback）
+				        url: "geetest/web/StartCaptchaServlet.php?rand="+Math.round(Math.random()*100),
+				        type: "get",
+				        dataType: "json", // 使用jsonp格式
+				        success: function (data) {
+				            // 使用initGeetest接口
+				            // 参数1：配置参数，与创建Geetest实例时接受的参数一致
+				            // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件
+				            initGeetest({
+				                gt: data.gt,
+				                challenge: data.challenge,
+				                product: "float", // 产品形式
+				                offline: !data.success
+				            }, handler);
+				        }
+				    });
+				</script>
+</body>
+</html>

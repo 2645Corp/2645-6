@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>2645-6</title>
+	<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon"/>
+	<link rel="stylesheet" type="text/css" href="../jeasyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../jeasyui/themes/color.css">
+	<link rel="stylesheet" type="text/css" href="../jeasyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="../jeasyui/demo/demo.css">
+	<script type="text/javascript" src="../jeasyui/jquery.min.js"></script>
+	<script type="text/javascript" src="../jeasyui/jquery.easyui.min.js"></script>
+</head>
+<body class="easyui-layout" {#if !$isActive#} onLoad="$('#wemail').window('open');" {#/if#}>
+	<div align="center" data-options="region:'north',border:false" style="height:60px;background:#B3DFDA;padding:10px">
+    	<div align="right" style="float:right"><a href="javascript:void(0)" onclick="$('#wpass').window('open')" style="margin:10px">修改密码</a><a href="destroy_login.php">注销</a></div>
+    	<div align="center" style="font-family:幼圆; font-size:20px">你好，{#$username#}，欢迎使用{#$sitename#}！</div>
+    </div>
+	<div data-options="region:'west',split:true,title:'功能菜单'" style="width:240px;padding:0px;">
+      <div class="easyui-accordion" fit="true">
+          <div title="问卷填写" style="overflow:auto;padding:0px">
+          <ul class="easyui-datalist" lines="true" style="width:100%;height:100%" fit="true">
+           {#section name=looper loop=$qns#} 
+          	   <li><div onclick="addPanel('{#$qns[looper].name#}','{#$qns[looper].url#}')">{#$qns[looper].name#}</div></li>
+           {#sectionelse#}
+           	<li><div onclick="javascript:$.messager.alert('提示', '没有需要填写的问卷', 'info');">没有要填写的问卷</div></li>
+            {#/section#}
+          </ul>
+          </div>
+          <div title="论坛"  style="overflow:auto;padding:0px">
+          <ul class="easyui-datalist" lines="true" style="width:100%;height:100%" fit="true">
+                        <li value="bbslogin"><div onclick="window.location.replace('bbslogin.php')">前往实验部论坛QAQ</div></li>
+           </ul>
+          </div>
+          <div title="个人资料" style="overflow:auto;padding:0px">
+             <ul class="easyui-datalist" lines="true" style="width:100%;height:100%" fit="true">
+             <li value="showinfo"><div onclick="addPanel('基本个人资料','showinfo.php')">查看个人资料</div></li>
+            </ul>
+          </div> 
+          <div title="帮助" data-options="iconCls:'icon-help'" style="padding:0px">
+             <ul class="easyui-datalist" lines="true" style="width:100%;height:100%" fit="true">
+                <li value="help"><div onclick="addHelpPanel()">帮助信息</div></li>
+                <li value="about"><div onclick="addAboutPanel()">关于</div></li>
+                <li value="contact"><div onclick="addContactPanel()">联系开发人员</div></li>
+                <li value="donate"><div onclick="addDonatePanel()">捐赠</div></li>
+             </ul>
+           </div>
+      </div>
+    </div>
+	<div data-options="region:'east',split:true,title:'公告栏'" style="width:240px;padding:10px;">暂时没有新公告</div>
+	<div data-options="region:'center'">
+        <div id="centertab" class="easyui-tabs" fit="true">
+            <div title="欢迎" style="padding:10px">
+                <p>威海一中实验学部欢迎你！</p>
+                <p>此平台为实验学部教学管理平台，用于实验部日常教学管理之用。</p>
+                <p>请打开左侧边栏中的问卷填写一栏，填写相关问卷。</p>
+                <br/>
+                <br/>
+                <p>旧有的教学管理模式存在数据管理松散，数据整合度低，数据统计困难，查询不便等以及信息调查不便利，日常管理形同虚设等诸多弊端。因此我们开发了此平台，愿通过此平台，更好地统计同学们的考试成绩等信息，为同学们提供更加直观、更加方便的成绩分析，同时方便日常教学管理。</p>
+                <p>此平台2016年5月3日起试运行，开发代号为2645-6。有任何意见或建议可以在论坛的2645-6板块中讨论。</p>
+            </div>
+        </div>
+    </div>
+{#if !$isActivate#}
+   <div id="wemail" class="easyui-window" title="验证邮箱" data-options="modal:true,closed:true,iconCls:'icon-tip'" style="width:360px;height:175px;">
+		<div class="easyui-panel" align="center" fit="true" style="padding:10px">
+        <table style="margin-top:20px;">
+        <tr><td>
+        <img src="./../img/warning.png" alt="warning" width="30px" height="30px" />
+        </td><td>
+    	你的邮箱未激活，这将导致无法使用密码找回功能，请立即前往激活！
+    </td></tr></table>
+	    <div style="text-align:center;padding:5px">
+        <form id="ffemail" method="post">
+        <input type="hidden" name="stuname" value="{#$username#}" />
+        <input type="hidden" name="student" value="{#$student#}" />
+        <input type="hidden" name="Email" value="{#$Email#}" />
+        </form>
+	    	<a href="javascript:void(0)" class="easyui-linkbutton c6" onclick="goActivate()">立即前往激活</a>
+	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="resend()">重新发送激活邮件</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="yihouzaishuo()">以后再说</a>
+	    </div>
+	</div>
+	<script>
+		function goActivate(){
+			window.location.href='{#$mailurl#}';
+		}
+		function yihouzaishuo(){
+			$('#wemail').window('close');
+		}
+		function resend(){
+			$("#ffemail").form('submit');
+		}
+		$(function(){
+			$('#ffemail').form({
+				url:'resendemail.php',
+				success:function(data){
+					var result =  eval("("+data+")");
+					if(result['result'] == "failed")
+					{
+						$.messager.alert('发送失败！', '我们也不知道为什么', 'info');
+					}
+					else if(result['result'] == "success")
+					{
+						$.messager.alert('发送成功', '发送成功', 'info');
+					}
+					else
+						$.messager.alert('未知错误', data, 'info');
+				}
+			});
+		});
+	</script>
+	</div>
+{#/if#}
+    <div id="wpass" class="easyui-window" title="修改密码" data-options="modal:true,closed:true,iconCls:'icon-save'" style="width:360px;height:210px;">
+		<div class="easyui-panel" align="center" fit="true" style="padding:10px">
+	    <form id="ffpass" method="post">
+	    	<table cellpadding="5">
+	    		<tr>
+	    			<td>旧密码:</td>
+	    			<td><input class="easyui-textbox" type="password" name="oldpass" data-options="required:true" missingMessage="密码字段不可为空"/></td>
+	    		</tr>
+	    		<tr>
+	    			<td>新密码:</td>
+	    			<td><input class="easyui-textbox" type="password" name="newpass" id="newpass" data-options="required:true" missingMessage="密码字段不可为空"/></td>
+	    		</tr>
+	    		<tr>
+	    			<td>确认密码:</td>
+	    			<td><input class="easyui-textbox" type="password" name="confirmpass" data-options="required:true" missingMessage="密码字段不可为空" validType="equalTo['#newpass']" invalidMessage="两次输入密码不匹配"/></td>
+	    		</tr>
+	    	</table>
+	    </form>
+	    <div style="text-align:center;padding:5px">
+	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">提交</a>
+	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">清空</a>
+	    </div>
+	</div>
+	<script>
+		function submitForm(){
+			$('#ffpass').form('submit');
+		}
+		function clearForm(){
+			$('#ffpass').form('clear');
+		}
+		$.extend($.fn.validatebox.defaults.rules, {
+        /*必须和某个字段相等*/
+        	equalTo: { validator: function (value, param) { return $(param[0]).val() == value; }, message: '字段不匹配' }
+       });
+		$(function(){
+			$('#ffpass').form({
+				url:'changepass.php',
+				onSubmit:function(){
+					return $(this).form('validate');
+				},
+				success:function(data){
+					var result =  eval("("+data+")");
+					if(result['result'] == "denied")
+					{
+						$.messager.alert('改密失败！', '密码不正确', 'info');
+					}
+					else if(result['result'] == "success")
+					{
+						$.messager.alert('信息', '改密成功', 'info');
+						clearForm();
+						$('#wpass').window('close');
+					}
+					else
+						$.messager.alert('未知错误', data, 'info');
+				}
+			});
+		});
+	</script>
+	</div>
+
+    <script type="text/javascript">
+		function addPanel(title,url){
+			if($('#centertab').tabs('exists',title)){
+				$('#centertab').tabs('select',title);
+			}else{
+				$('#centertab').tabs('add',{
+					title: title,
+					content:'<iframe id="panelframe" src="'+url+'" frameborder="0" width="100%" height="100%"></iframe>',
+					closable: true,
+					style:'padding:10px'
+				});
+			}
+		}
+		function addHelpPanel(){
+			if($('#centertab').tabs('exists','帮助')){
+				$('#centertab').tabs('select','帮助');
+			}else{
+				$('#centertab').tabs('add',{
+					title: '帮助',
+					content: '<p>&emsp;此模块尚在建设中。</p>',
+					closable: true,
+					iconCls:'icon-help',
+					style:'padding:10px'
+				});
+			}
+		}
+		function addAboutPanel(){
+			if($('#centertab').tabs('exists','关于')){
+				$('#centertab').tabs('select','关于');
+			}else{
+				$('#centertab').tabs('add',{
+					title: '关于',
+					content: "<p>&emsp;本教学管理平台由<a href='http://www.cool2645.com'>2645工作室</a>和威海一中实验部出品，作者为58级实验2班<a href='mailto:zhouziqun@cool2645.com'>周子群</a>和58级普通1班<a href='mailto:lijiahao@cool2645.com'>李家豪</a>。</p>",
+					closable: true,
+					style:'padding:10px'
+				});
+			}
+		}
+		function addContactPanel(){
+			if($('#centertab').tabs('exists','联系开发人员')){
+				$('#centertab').tabs('select','联系开发人员');
+			}else{
+				$('#centertab').tabs('add',{
+					title: '联系开发人员',
+					content: "<p>&emsp;本教学管理平台由<a href='http://www.cool2645.com'>2645工作室</a>开发和维护，有任何使用上的疑问、意见建议请联系2645工作室首席客户官<a href='mailto:wangkule@cool2645.com'>王酷乐</a>，投诉请联系2645工作室<a href='mailto:complain@cool2645.com'>投诉受理中心</a>。</p>",
+					closable: true,
+					style:'padding:10px'
+				});
+			}
+		}
+		function addDonatePanel(){
+			if($('#centertab').tabs('exists','捐赠')){
+				$('#centertab').tabs('select','捐赠');
+			}else{
+				$('#centertab').tabs('add',{
+					title: '捐赠',
+					content: "<p>&emsp;2645工作室是个非营利的组织，开发本系统也是无偿的。它的成长与发展需要你的支持和鼓励！</p><p><img src='./../img/donate.png' alt='donateus' /></p>",
+					closable: true,
+					style:'padding:10px'
+				});
+			}
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>注册页面</title>
+<link rel="stylesheet" href="./css/bootstrap.css"/>
+<link href="./css/bootstrap.min.css" rel="stylesheet">
+<link href="./css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+<link rel="stylesheet" href="./css/bootstrapValidator.css"/>
+<script type="text/javascript" src="./js/jquery.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="./js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="./js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script type="text/javascript" src="./js/bootstrapValidator.js"></script>
+<style type="text/css">
+#classgroup.has-feedback .form-control-feedback {
+	top: 0;
+	right: -30px;
+}
+#defaultForm.form-horizontal .control-label {
+	text-align: left;
+}
+#defaultForm .form-group {
+	margin-bottom: 10px;
+	margin-top: 5px;
+}
+</style>
+</head>
+
+<body style="background-color:#EFEFEF">
+<div class="container">
+  <div style="background-color:#FFFFFF; margin-top:100px; margin-bottom:200px; padding-top:50px; padding-bottom:150px;">
+    <div class="page-header col-xs-8 col-xs-offset-2">
+      <h1>注册</h1>
+    </div>
+    <br/>
+    <br/>
+    <br/>
+	<form id="defaultForm" action="signup.php" method="post" enctype="multipart/form-data" class="form-horizontal">
+      <div class="form-group">
+        <div class="row">
+          <label for="Email" class="col-xs-8 col-xs-offset-2 control-label">电子邮箱</label>
+        </div>
+        <div class="row">
+          <div class="col-xs-8 col-xs-offset-2" style="margin-top:5px">
+            <input type="email" class="form-control" name="Email" id="Email" placeholder="Email">
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="row">
+          <label for="Password" class="col-xs-8 col-xs-offset-2 control-label">密码</label>
+        </div>
+        <div class="row">
+          <div class="col-xs-8 col-xs-offset-2" style="margin-top:5px">
+            <input type="password" class="form-control" name="Password" id="Password" placeholder="Password">
+          </div>
+        </div>
+        <div class="row">
+          <label for="RePassword" class="col-xs-8 col-xs-offset-2 control-label">确认密码</label>
+        </div>
+        <div class="row">
+          <div class="col-xs-8 col-xs-offset-2" style="margin-top:5px">
+            <input type="password" class="form-control" name="RePassword" id="RePassword" placeholder="Retype Password">
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="row">
+          <label for="stuname" class="col-xs-8 col-xs-offset-2 control-label">姓名</label>
+        </div>
+        <div class="row">
+          <div class="col-xs-8 col-xs-offset-2" style="margin-top:5px">
+            <input type="text" class="form-control" name="stuname" id="stuname" placeholder="Name">
+          </div>
+        </div>
+      </div>
+      <div id="classgroup" class="form-group">
+        <div class="row">
+          <label class="col-xs-8 col-xs-offset-2 control-label">班级</label>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <div class="col-xs-8 col-xs-offset-2" style="margin-top:5px">
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-default">
+                    <input type="radio" name="class" value="6221" /> 高一一班
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" name="class" value="6222" /> 高一二班
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" name="class" value="6223" /> 高一三班
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" name="class" value="6224" /> 高一四班
+                </label>
+<br/>
+<br/>
+                <label class="btn btn-default">
+                    <input type="radio" name="class" value="6121" /> 高二一班
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" name="class" value="6122" /> 高二二班
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" name="class" value="6123" /> 高二三班
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" name="class" value="6124" /> 高二四班
+                </label>
+<br/>
+<br/>
+                <label class="btn btn-default">
+                    <input type="radio" name="class" value="6021" /> 高三一班
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" name="class" value="6022" /> 高三二班
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" name="class" value="6023" /> 高三三班
+                </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="row">
+          <label for="file" class="col-xs-8 col-xs-offset-2 control-label">上传近期一寸免冠照片（支持jpg,png和gif格式；图片大小不超过10M）（注：一寸照片的正确大小为2.5*3.5cm，请上传比例正确的照片）</label>
+        </div>
+        <div class="row">
+          <div class="col-xs-8 col-xs-offset-2" style="margin-top:5px">
+            <input type="file" name="file" id="file">
+          </div>
+        </div>
+      </div>              
+      <br/>
+      <br/>
+      <center>
+      <div id="captcha"></div>
+      <br/>
+      <br/>
+        <button id="mysubmit" class="btn btn-default" onClick="myvalidate()" disabled>提交</button>
+      </center>
+    </form>
+    <br/><br/><br/>
+        <div class="col-xs-8 col-xs-offset-2" style="margin-top:50px">
+     <footer class=" modal-footer"><h4><center>Copyright by 2016 2645工作室</center></h4></footer>
+     </div>
+  </div>
+</div>
+<script src="http://static.geetest.com/static/tools/gt.js"></script>
+<script>
+function myvalidate()
+{
+	alert("请拖动滑块完成验证~");
+	//$('#defaultForm').bootstrapValidator(options).bootstrapValidator('validate');
+//	var isvalid =$('#defaultForm').bootstrapValidator(options).bootstrapValidator('isvalid');
+//	//alert(isvalid);
+//	if(isvalid)
+//	{
+//		document.getElementById('defaultForm').submit();
+//	}
+//	else
+//		$('#defaultForm').bootstrapValidator(options).bootstrapValidator('validate');
+}
+				    var handler = function (captchaObj) {
+				         // 将验证码加到id为captcha的元素里
+				         captchaObj.appendTo("#captcha");
+						 captchaObj.onSuccess(function(){$("#mysubmit").removeAttr("disabled");$("#mysubmit").attr("class","btn btn-primary");$("#mysubmit").attr("type","submit");$("#mysubmit").removeAttr("onclick");});
+						 captchaObj.onFail(function(){$("#mysubmit").attr("disabled","true");$("#mysubmit").attr("class","btn btn-default");$("#mysubmit").attr("type","button");$("#mysubmit").attr("onclick","myvalidate()");});
+						 captchaObj.onRefresh(function(){$("#mysubmit").attr("disabled","true");$("#mysubmit").attr("class","btn btn-default");$("#mysubmit").attr("type","button");$("#mysubmit").attr("onclick","myvalidate()");});
+				     	 captchaObj.onReady(function(){$("#captcha").find().removeAttr("style");});
+					 };
+				    $.ajax({
+				        // 获取id，challenge，success（是否启用failback）
+				        url: "geetest/web/StartCaptchaServlet.php?rand="+Math.round(Math.random()*100),
+				        type: "get",
+				        dataType: "json", // 使用jsonp格式
+				        success: function (data) {
+				            // 使用initGeetest接口
+				            // 参数1：配置参数，与创建Geetest实例时接受的参数一致
+				            // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件
+				            initGeetest({
+				                gt: data.gt,
+				                challenge: data.challenge,
+				                product: "float", // 产品形式
+				                offline: !data.success
+				            }, handler);
+				        }
+				    });
+				</script>
+<script type="text/javascript">
+
+$(document).ready(function() {
+	$('#datetimepicker').datetimepicker().on('changeDate', function(ev){
+		$('#defaultForm').data('bootstrapValidator').updateStatus('facialbirth', 'NOT_VALIDATED', null).validateField("facialbirth");
+	});
+    $('#defaultForm').bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+		excluded: ':disabled',
+        fields: {
+			seeid: {
+                validators: {
+                    notEmpty: {
+                        message: '考生号不可为空'
+                    },
+                    digits: {
+                        message: '考生号只能是数字'
+                    },
+					stringLength: {
+						min: 15,
+						max: 15,
+						message: '请输入正确的15位考生号'
+					}
+                }
+            },
+            Email: {
+                validators: {
+                    notEmpty: {
+                        message: '你必须填写电子邮箱'
+                    },
+                    emailAddress: {
+                        message: '请输入合法的电子邮箱地址'
+                    }
+                }
+            },
+            Password: {
+                validators: {
+                    notEmpty: {
+                        message: '密码字段不可为空'
+                    },
+                    
+					stringLength: {
+						min: 6,
+						message: '密码长度过短'
+					}
+                }
+            },
+            RePassword: {
+                validators: {
+                    notEmpty: {
+                        message: '确认密码字段不可为空'
+                    },
+                    identical: {
+                        field: 'Password',
+                        message: '两次输入的密码不一致'
+                    }
+                }
+            },
+			stuname: {
+                validators: {
+                    notEmpty: {
+                        message: '请填写姓名'
+                    }
+                }
+            },
+			class: {
+                validators: {
+                    notEmpty: {
+                        message: '请填写班级'
+                    }
+                }
+			},
+			file: {
+                validators: {
+					notEmpty: {
+                        message: '你必须上传照片'
+                    },
+                    file: {
+                        message: '文件格式不正确',
+						maxSize: 10485760,
+						type: 'image/jpeg,image/png,image/gif'
+                    }
+                }
+            },
+			
+        }
+    });
+});
+</script> 
+
+</body>
+</html>

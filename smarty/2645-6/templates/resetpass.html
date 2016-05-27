@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>注册页面</title>
+<link rel="stylesheet" href="./css/bootstrap.css"/>
+<link href="./css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="./css/bootstrapValidator.css"/>
+<script type="text/javascript" src="./js/jquery.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="./js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./js/bootstrapValidator.js"></script>
+</head>
+
+<body style="background-color:#EFEFEF">
+<div class="container">
+  <div style="background-color:#FFFFFF; margin-top:100px; margin-bottom:200px; padding-top:50px; padding-bottom:150px;">
+    <div class="page-header col-xs-8 col-xs-offset-2">
+      <h1>找回密码</h1>
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    <form id="defaultForm" action="resetpass.php" method="post" enctype="multipart/form-data" class="form-horizontal">
+      <div class="form-group">
+        <label for="Password" class="col-xs-1 col-xs-offset-2 control-label" style="margin-top:15px">新密码</label>
+        <div class="col-xs-7" style="margin-top:15px">
+          <input type="password" class="form-control" name="Password" id="Password" placeholder="Password">
+        </div>
+        <label for="RePassword" class="col-xs-1 col-xs-offset-2 control-label" style="margin-top:15px">确认密码</label>
+        <div class="col-xs-7" style="margin-top:15px">
+          <input type="password" class="form-control" name="RePassword" id="RePassword" placeholder="Retype Password">
+          <input type="hidden" name="action" value="reset" />
+          <input type="hidden" name="key" value="{#$key#}" />
+        </div>
+      </div>
+      <br/>
+      <br/>
+      <center>
+        <div id="captcha"></div>
+        <br/>
+        <br/>
+        <button id="mysubmit" class="btn btn-default" onClick="myvalidate()" disabled>提交</button>
+      </center>
+    </form>
+  </div>
+</div>
+<script src="http://static.geetest.com/static/tools/gt.js"></script> 
+<script>
+function myvalidate()
+{
+	alert("请拖动滑块完成验证~");
+	//$('#defaultForm').bootstrapValidator(options).bootstrapValidator('validate');
+//	var isvalid =$('#defaultForm').bootstrapValidator(options).bootstrapValidator('isvalid');
+//	//alert(isvalid);
+//	if(isvalid)
+//	{
+//		document.getElementById('defaultForm').submit();
+//	}
+//	else
+//		$('#defaultForm').bootstrapValidator(options).bootstrapValidator('validate');
+}
+				    var handler = function (captchaObj) {
+				         // 将验证码加到id为captcha的元素里
+				         captchaObj.appendTo("#captcha");
+						 captchaObj.onSuccess(function(){$("#mysubmit").removeAttr("disabled");$("#mysubmit").attr("class","btn btn-primary");$("#mysubmit").attr("type","submit");$("#mysubmit").removeAttr("onclick");});
+						 captchaObj.onFail(function(){$("#mysubmit").attr("disabled","true");$("#mysubmit").attr("class","btn btn-default");$("#mysubmit").attr("type","button");$("#mysubmit").attr("onclick","myvalidate()");});
+						 captchaObj.onRefresh(function(){$("#mysubmit").attr("disabled","true");$("#mysubmit").attr("class","btn btn-default");$("#mysubmit").attr("type","button");$("#mysubmit").attr("onclick","myvalidate()");});
+				     	 captchaObj.onReady(function(){$("#captcha").find().removeAttr("style");});
+					 };
+				    $.ajax({
+				        // 获取id，challenge，success（是否启用failback）
+				        url: "geetest/web/StartCaptchaServlet.php?rand="+Math.round(Math.random()*100),
+				        type: "get",
+				        dataType: "json", // 使用jsonp格式
+				        success: function (data) {
+				            // 使用initGeetest接口
+				            // 参数1：配置参数，与创建Geetest实例时接受的参数一致
+				            // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件
+				            initGeetest({
+				                gt: data.gt,
+				                challenge: data.challenge,
+				                product: "float", // 产品形式
+				                offline: !data.success
+				            }, handler);
+				        }
+				    });
+				</script> 
+<script type="text/javascript">
+
+$(document).ready(function() {
+    $('#defaultForm').bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            Password: {
+                validators: {
+                    notEmpty: {
+                        message: '密码字段不可为空'
+                    },
+                    identical: {
+                        field: 'RePassword',
+                        message: '两次输入的密码不一致'
+                    },
+					stringLength: {
+						min: 6,
+						message: '密码长度过短'
+					}
+                }
+            },
+            RePassword: {
+                validators: {
+                    notEmpty: {
+                        message: '确认密码字段不可为空'
+                    },
+                    identical: {
+                        field: 'Password',
+                        message: '两次输入的密码不一致'
+                    }
+                }
+            },		
+        }
+    });
+});
+</script>
+</body>
+</html>
