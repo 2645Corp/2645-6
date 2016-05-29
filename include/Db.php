@@ -51,6 +51,11 @@ Class DB_MYSQL {
     //获取一条记录（MYSQL_ASSOC，MYSQL_NUM，MYSQL_BOTH）              
     public function get_one($sql,$result_type = MYSQL_ASSOC) {
         $query = $this->query($sql);
+	if(!$query)
+	{
+		$this->halt("查询失败");
+		return NULL;
+	}
         $rt = mysql_fetch_array($query,$result_type);
         $this->write_log("获取一条记录 ".$sql);
         return $rt;
@@ -59,6 +64,11 @@ Class DB_MYSQL {
     //获取全部记录
     public function get_all($sql,$result_type = MYSQL_ASSOC) {
         $query = $this->query($sql);
+	if(!$query)
+	{
+		$this->halt("查询失败");
+		return NULL;
+	}
         $i = 0;
         $rt = array();
         while($row = mysql_fetch_array($query,$result_type)) {
