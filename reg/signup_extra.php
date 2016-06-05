@@ -1,4 +1,4 @@
-<?
+<?php
 require_once("./../include/config.php");
 session_start();
 if(isset($_SESSION['username'])&&isset($_SESSION['userflag']))
