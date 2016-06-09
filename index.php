@@ -49,7 +49,7 @@ if(isset($_SESSION['username'])&&isset($_SESSION['userflag']))
         <li><a class="hvr-underline-from-left" data-scroll data-options="easing: easeOutQuart" href="reg/">注册</a></li>
         <li role="presentation" class="dropdown"> <a href="index-2.html#blog-list" data-scroll data-options="easing: easeOutQuart" data-toggle="dropdown" class="dropdown-toggle hvr-underline-from-left">选择语言<b class="caret"></b></a>
           <ul role="menu" class="dropdown-menu">
-            <li><a href="index.html">简体中文</a></li>
+            <li><a href="index.php">简体中文</a></li>
             <li><a href="index_en.html">English</a></li>
           </ul>
         </li>
