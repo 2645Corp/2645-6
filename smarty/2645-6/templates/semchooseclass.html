@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>2645-6</title>
+	<link rel="stylesheet" type="text/css" href="../jeasyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../jeasyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="../jeasyui/demo/demo.css">
+	<link rel="stylesheet" type="text/css" href="../jeasyui/demo/color.css">
+	<script type="text/javascript" src="../jeasyui/jquery-1.6.1.min.js"></script>
+	<script type="text/javascript" src="../jeasyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="../jeasyui/jquery.edatagrid.js"></script>
+</head>
+<body>
+    <p>
+    选择管理的学科：
+    <select class="easyui-combobox" id="subject" style="width:200px;" editable="false">
+        {#section name=looper loop=$Subjects#} 
+        <option value="{#$Subjects[looper].subject#}">{#$Subjects[looper].subject_name#}</option>
+        {#sectionelse#} 
+        <option value="error">错误：没有可用的学科</option>
+        {#/section#} 
+    </select>
+    <a href="#" class="easyui-linkbutton" onclick="saveXK();">保存选课信息</a>
+    </p>
+	<div style="margin:20px 0;"></div>
+	<div style="float:left;width:100%;margin-right:20px;border:2px solid #ccc;margin-bottom:10px;">
+		<div class="title">教师</div>
+		<div id="drag">
+
+		</div>
+	</div>
+	<div style="float:left;width:100%;border:2px solid #ccc;margin-bottom:10px;">
+        <div class="title">班级</div>
+        <div id="drop">
+    
+        </div>
+        </div>
+	<div style="clear:both"></div>
+	<style type="text/css">
+		.title{
+			margin-bottom:10px;
+			text-align:center;
+		}
+		.dragitem{
+			border:1px solid #ccc;
+			width:50px;
+			height:30px;
+			margin-bottom:10px;
+			margin-left:10px;
+			float:left;
+			
+		}
+		.targetarea{
+			border:1px solid red;
+			width:50px;
+			height:30px;
+			float:left;
+			margin-left:10px;
+			margin-right:10px;
+			margin-bottom:10px;
+			background:#FFE4C4;
+		}
+		.proxy{
+			border:1px solid #ccc;
+			width:80px;
+			background:#fafafa;
+		}
+	</style>
+	<script>
+		var cnt=0;
+		var classtmp;
+		var subjecttmp;
+		$(function(){
+			$('.dragitem').draggable({
+				revert:true,
+				deltaX:10,
+				deltaY:10,
+				proxy:function(source){
+					var n = $('<div class="proxy"></div>');
+					n.html($(source).html()).appendTo('body');
+					return n;
+				}
+			});
+		});
+		$('#subject').combobox({
+				onSelect:function(record){
+							subjecttmp = record['value'];
+							document.getElementById("drag").innerHTML="";
+							$.post('{#$dir#}/get_teachers.php',{term:"{#$term#}",subject:record['value']},function(result){
+									if (result.total>0){		
+										for(var i=0;i<result.total;i++)
+										{
+											addDragItem(result.teachers[i]['teacher'],result.teachers[i]['teacher_name']);
+										}
+									} else {
+										$.messager.show({	// show error message
+											title: '错误',
+											msg: "错误：教师信息读取失败！"
+										});
+									}
+							},'json');
+							document.getElementById("drop").innerHTML="";
+							$.post('{#$dir#}/get_classes.php',{term:"{#$term#}",subject:record['value']},function(result){
+									if (result.total>0){
+										classtmp = result;	
+										for(var i=0;i<result.total;i++)
+										{
+											addDropItem(result.classes[i]['class'],result.classes[i]['class_name'],result.classes[i]['teacher']==null?"null":result.classes[i]['teacher'],result.classes[i]['teacher_name'] == null?"请选择教师...":result.classes[i]['teacher_name']);
+										}
+									} else {
+										$.messager.show({	// show error message
+											title: '错误',
+											msg: "错误：班级信息读取失败！"
+										});
+									}
+							},'json');
+						}
+		});
+		function addDragItem(teacher,teacher_name)
+		{
+			addDragDiv("drag",teacher,teacher_name);
+			$('.dragitem').draggable({
+				revert:true,
+				deltaX:10,
+				deltaY:10,
+				proxy:function(source){
+					var n = $('<div class="proxy"></div>');
+					n.html($(source).html()).appendTo('body');
+					return n;
+				},
+			});
+		}
+		function addDropItem(cl,cl_name,teacher,teacher_name)
+		{
+			addDropDiv("drop",cl,cl_name,teacher,teacher_name);
+			$('#'+cl).droppable({
+				accept: '.dragitem',
+				/*onDragEnter:function(e,source){
+					$(this).html('enter');
+				},
+				onDragLeave: function(e,source){
+					$(this).html('leave');
+				},*/
+				onDrop: function(e,source){
+					$(this).attr("name",$(source).attr("name"));
+					$(this).attr("style",$(source).attr("style"));
+					$(this).html($(source).html());
+				}
+			});
+		}
+		function addDragDiv(obj,teacher,teacher_name) {
+	　　　 　var parent = document.getElementById(obj);
+	
+	　　　　//添加 div <div id="title" style="background:#ccc;">title</div>
+	　　　 　var div = document.createElement("div");
+	
+	　　　　//设置 div 属性，如 id
+	　　　   div.setAttribute("name", teacher);
+			//div.setAttribute("style", "float:left;margin-left:10px");
+			div.setAttribute("class", "dragitem"); //background:#F0F8FF;
+			var ranColor = randomcolor();
+			div.setAttribute("style", "background:"+ranColor+";"); 
+	
+	　　　 　div.innerHTML = '<center><p style="color:'+oppositeColor(ranColor)+'">'+teacher_name+'</p></center>';
+	　　　 　parent.appendChild(div);
+	　　}
+		function addDropDiv(obj,cl,cl_name,teacher,teacher_name) {
+			var parent = document.getElementById(obj);
+			
+			var div = document.createElement("div");
+			div.setAttribute("style", "float:left;margin-left:10px;;margin-bottom:10px;border:1px solid blue;");
+	　　　　 
+			var title_div = document.createElement("div");
+			title_div.setAttribute("class", "title");
+	　　　 	title_div.innerHTML = cl_name+":";
+	　　　 　div.appendChild(title_div);
+			
+	　　　 　var drop_div = document.createElement("div");
+			drop_div.setAttribute("class", "easyui-droppable targetarea");
+			drop_div.setAttribute("id", cl);
+			drop_div.setAttribute("name", teacher);
+			drop_div.setAttribute("style", $('.dragitem[name="'+teacher+'"]').attr("style"));
+	　　　 	drop_div.innerHTML = teacher_name;
+	　　　 　div.appendChild(drop_div);
+		
+			var clear_div = document.createElement("div");
+			clear_div.innerHTML = '<a href="#" class="easyui-linkbutton" onclick="clearDropDiv('+cl+');">清除</a>';
+			div.appendChild(clear_div);
+	
+			parent.appendChild(div);
+	　　}
+		function clearDropDiv(cl){
+			$.messager.confirm('警告','清除选课信息将会导致该班所有学生该科成绩被删除！确定要这样做吗？',function(r){
+					if (r){
+							$('#'+cl).html("请选择教师...");
+							$('#'+cl).attr("style","background:#FFE4C4;color:FFFFFF;");
+							$('#'+cl).attr("name","null");
+						}
+				});
+		}
+		function saveXK(){
+			var success = true;
+			var msg_plus = "";
+			for(var i=0;i<classtmp.total;i++)
+			{
+				$.post('{#$dir#}/do_xk.php',{term:"{#$term#}",subject:subjecttmp,class:classtmp.classes[i]['class'],teacher:$("#"+classtmp.classes[i]['class']).attr("name")},function(result){
+									if (result.isError == "true"){
+										success = false;
+										msg_plus += result.msg;
+									}
+							},'json');
+			}
+			if(success)
+				$.messager.show({
+					title: '保存成功',
+					msg: "提示：选课信息保存成功！"
+				});
+			else
+				$.messager.show({
+					title: '错误',
+					msg: "错误：选课信息保存失败！" + msg_plus
+				});
+		}
+		function randomcolor()
+		{
+			var colorvalue=["0","2","3","4","5","6","7","8","9","a","b","c","d","e","f"],
+			colorprefix="#",
+			index;
+			for(var i=0;i < 6; i++){
+				index=Math.round(Math.random()*14);
+				colorprefix+=colorvalue[index];
+			}
+			return colorprefix;
+		}
+		function oppositeColor(a){
+			a=a.replace('#','');
+			var c16,c10,max16=15,b=[];
+			for(var i=0;i<a.length;i++){   
+				c16=parseInt(a.charAt(i),16);//  to 16进制
+				c10=parseInt(max16-c16,10);// 10进制计算
+				b.push(c10.toString(16)); // to 16进制
+			}
+			return '#'+b.join('');
+		}
+	</script>
+</body>
+</html>
