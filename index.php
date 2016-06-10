@@ -7,7 +7,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link rel="icon" href="assets/icon/favicon.ico">
-<title>威海一中实验部课程管理平台</title>
+<title>威海一中实验部教学管理平台</title>
 
 <!-- Bootstrap core CSS -->
 <link rel="stylesheet" href="assets/plugins/bootstrap-3.3.1/css/bootstrap.min.css" type='text/css'>
@@ -39,18 +39,19 @@ if(isset($_SESSION['username'])&&isset($_SESSION['userflag']))
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-      <a class="navbar-brand" href="#" title="logo"><img src="assets/images/logo.png" alt="logo" /></a> </div>
+      <a class="navbar-brand" href="http://www.whyzsyb.com"><img src="assets/images/logo.png" alt="logo" /></a> </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-left" id="menu">
-        <li><a class="hvr-underline-from-left" data-scroll data-options="easing: easeOutQuart" href="#">主页</a></li>
+        <li><a class="hvr-underline-from-left" data-scroll data-options="easing: easeOutQuart" href="http://www.whyzsyb.com">主页</a></li>
         <li><a class="hvr-underline-from-left" data-scroll data-options="easing: easeOutQuart" href="#">关于</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right" id="menu">
         <li><a class="hvr-underline-from-left" data-scroll data-options="easing: easeOutQuart" href="reg/">注册</a></li>
-        <li role="presentation" class="dropdown"> <a href="index-2.html#blog-list" data-scroll data-options="easing: easeOutQuart" data-toggle="dropdown" class="dropdown-toggle hvr-underline-from-left">选择语言<b class="caret"></b></a>
+        <li role="presentation" class="dropdown"> <a href="#" data-scroll data-options="easing: easeOutQuart" data-toggle="dropdown" class="dropdown-toggle hvr-underline-from-left">选择语言<b class="caret"></b></a>
           <ul role="menu" class="dropdown-menu">
             <li><a href="index.php">简体中文</a></li>
             <li><a href="index_en.html">English</a></li>
+            <li><a href="index_tw.html">正體中文</a></li>
           </ul>
         </li>
       </ul>
@@ -58,10 +59,10 @@ if(isset($_SESSION['username'])&&isset($_SESSION['userflag']))
     <!--/.nav-collapse --> 
   </div>
 </div>
-<div class="container col-md-offset-8 loginpanel">
-  <form method="post" action="include/check_login.php" class="form-horizontal">
-    <div class="col-xs-12">
-      <div class="row"> <br/>
+<div class="container">
+  <div class="row loginpanel col-xs-9 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-6 col-lg-offset-7">
+    <form method="post" action="include/check_login.php" class="form-horizontal">
+      <div class="col-xs-12"> <br/>
         <input class="form-control" name="username" id="username" required="true" placeholder="用户名" />
         <br/>
         <input class="form-control" type="password" name="pass" id="pass" required="true"  placeholder="密码"/>
@@ -69,30 +70,28 @@ if(isset($_SESSION['username'])&&isset($_SESSION['userflag']))
         <!--<input class="btn btn-default" type="button" id="Button2" value="注册" onclick="window.location.href='reg'"/>-->
         <input class="btn btn-primary" type="submit" id="Button1" style="width:100%; margin-bottom:10px;" value="登录" />
         <a href="reg/findmypass.html">忘记密码？</a> </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
 <section id="slider">
   <div class="slider-grid">
     <div class="col-md-12 col-sm-12 item"> <img src="assets/images/slider/slider-img.jpg" alt="gallery">
-      <div class="text left">
-        
-        </div>
+      <div class="text left"> </div>
     </div>
     <div class="col-md-12 col-sm-12 item"> <img src="assets/images/slider/slider-img-1.jpg" alt="gallery">
       <div class="text left">
         <h2 class="wow fadeInRight" data-wow-duration="1s" data-wow-delay="1s">欢迎使用<strong>威海一中实验部</strong> <span>教学管理平台</span></h2>
-        </div>
+      </div>
     </div>
     <div class="col-md-12 col-sm-12 item"> <img src="assets/images/slider/slider-img-2.jpg" alt="gallery">
       <div class="text left">
         <h2 class="wow fadeInRight" data-wow-duration="1s" data-wow-delay="1s">欢迎使用<strong>威海一中实验部</strong> <span>教学管理平台</span></h2>
-        </div>
+      </div>
     </div>
     <div class="col-md-12 col-sm-12 item"> <img src="assets/images/slider/slider-img-3.jpg" alt="gallery">
       <div class="text left">
         <h2 class="wow fadeInRight" data-wow-duration="1s" data-wow-delay="1s">欢迎使用<strong>威海一中实验部</strong> <span>教学管理平台</span></h2>
-        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -110,7 +109,7 @@ if(isset($_SESSION['username'])&&isset($_SESSION['userflag']))
     </ul>
   </div>
   <div class="foot-line">
-    <p>&copy; 2016 2645实验室. 本页面由 <a href="#"><strong>CreativeMonkie</strong></a>设计 <a href="http://www.flashline.cn/" target="_blank"></a><a href="http://www.miitbeian.gov.cn">鲁ICP备16005737号-2</a></p>
+    <p>&copy; 2016 2645工作室. 本页面由<a href="#"><strong><a href="http://www.flashline.cn/" target="_blank">CreativeMonkie</a></strong></a>参与设计. <a href="http://www.miitbeian.gov.cn">鲁ICP备16005737号-2</a></p>
   </div>
 </footer>
 <a href="#" class="back-to-top"><i class="fa fa-angle-up"></i></a> 

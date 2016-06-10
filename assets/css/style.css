@@ -513,4 +513,4 @@ section { padding: 40px 0px; }
 .social li { margin-bottom: 15px; }
 }
 
-.loginpanel{position:absolute; z-index:1; top:40%; height:240px; width:300px; background-color:#FFFFFF; border-radius:10px; opacity:0.8}
+.loginpanel{position:absolute; z-index:1; top:35%; height:240px; max-width:350px; background-color:#FFFFFF; border-radius:10px; opacity:0.8}
