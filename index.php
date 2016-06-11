@@ -30,6 +30,18 @@ if(isset($_SESSION['username'])&&isset($_SESSION['userflag']))
 		header("Location: include/stumain.php");
 }
 ?>
+<script language="javascript">
+var DEFAULT_VERSION = "8.0";
+var ua = navigator.userAgent.toLowerCase();
+var isIE = ua.indexOf("msie")>-1;
+var safariVersion;
+if(isIE){
+    safariVersion =  ua.match(/msie ([\d.]+)/)[1];
+}
+if(safariVersion <= DEFAULT_VERSION ){
+   window.location.href = "updatebrowser.html";
+}
+</script>
 <!-- Preloader -->
 <div id="preloader">
   <div id="status">&nbsp;</div>
