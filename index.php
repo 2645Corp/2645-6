@@ -18,6 +18,16 @@
           <script src="assets/js/html5shiv.min.js"></script>
           <script src="assets/js/respond.min.js"></script>
         <![endif]-->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?d0019232c16acfe5725fe90f35836083";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
 </head>
 <body>
 <?php
