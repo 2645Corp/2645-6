@@ -1,4 +1,4 @@
-<?
+<?php
 header("Content-Type:text/html;   charset='utf8'"); 
 if($_POST['leadExcel'] == "true")
 {
@@ -18,7 +18,7 @@ function uploadFile($file,$filetempname)
     require_once '../../PHPExcel/Classes/PHPExcel/Reader/Excel5.php';
 	require_once("../Db.php");
     //注意设置时区
-    $time=date("y-m-d-H-i-s");//去当前上传的时间 
+    $time=date("y-m-d-H-i-s");//取当前上传的时间 
     //获取上传文件的扩展名
     $extend=strrchr ($file,'.');
     //上传后的文件名
